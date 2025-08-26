@@ -1,0 +1,38 @@
+# YAML configuration alternative
+# Note: This file is provided as an alternative to application.properties
+# Spring Boot will use either this file or application.properties (properties take precedence)
+
+spring:
+  application:
+    name: Spring Boot REST API Template
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/restapi
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA/Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework: INFO
+    com.example: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

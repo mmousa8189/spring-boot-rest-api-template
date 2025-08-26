@@ -72,20 +72,22 @@ eg.com.company.projectname
 ---
 
 ## 🛠️ Tech Stack
-- **Java 21**  
-- **Spring Boot 3.x**  
-- **Spring Data JPA** (or MongoDB if needed)  
-- **MapStruct** (for mapping Entities ↔ DTOs)  
-- **Lombok** (for boilerplate reduction)  
-- **Maven / Gradle** (build tool)  
+- **Java 24**  
+- **Spring Boot 3.2.3**  
+- **Spring Data JPA**  
+- **PostgreSQL** (database)  
+- **MapStruct 1.5.5.Final** (for mapping Entities ↔ DTOs)  
+- **Lombok 1.18.30** (for boilerplate reduction)  
+- **Maven** (build tool)  
 
 ---
 
 ## ⚡ Getting Started
 
 ### Prerequisites
-- Java 21  
-- Maven 3.9+ (or Gradle if configured)  
+- Java 24  
+- Maven 3.9+  
+- PostgreSQL database  
 - GitHub Desktop or Git CLI  
 
 ### Clone the Repository
@@ -95,11 +97,22 @@ cd spring-boot-rest-api-template
 ```
 
 ### Run the Application
+
+#### Configure Database
+Create a PostgreSQL database named `restapi` (or update the application.properties file with your database name).
+
+#### Run with default profile
 ```bash
 mvn spring-boot:run
 ```
+
+#### Run with development profile (includes sample data)
+```bash
+mvn spring-boot:run -Dspring.profiles.active=dev
+```
+
 The API will be available at:  
-👉 `http://localhost:8080`
+👉 `http://localhost:8080/api/v1`
 
 ---
 
