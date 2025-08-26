@@ -1,0 +1,17 @@
+version: 1
+rules:
+  - name: Pull Request Guidelines
+    description: >
+      Ensure all pull requests follow contribution standards.
+    checks:
+      - description: PR title must be descriptive
+      - description: Code must follow Java + Spring Boot style conventions
+      - description: Tests should be added for new features
+      - description: Update README.md if project structure or usage changes
+  - name: Issue Guidelines
+    description: >
+      Ensure all issues contain enough context for maintainers.
+    checks:
+      - description: Provide steps to reproduce the bug
+      - description: Mention expected vs actual behavior
+      - description: Suggest possible solution if known
