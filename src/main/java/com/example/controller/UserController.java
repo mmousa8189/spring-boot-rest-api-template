@@ -1,8 +1,6 @@
 package com.example.controller;
 
-import com.example.config.Auditable;
 import com.example.model.dto.UserDto;
-import com.example.service.AuditService;
 import com.example.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -25,7 +21,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final AuditService auditService;
 
     /**
      * GET /users : Get all users
@@ -57,7 +52,6 @@ public class UserController {
      * @return the ResponseEntity with status 201 (Created) and the new user
      */
     @PostMapping
-    //@Auditable(action = "CREATE_USER", entity = "User")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto, HttpServletRequest request) {
         
         UserDto createdUser = userService.save(userDto);    

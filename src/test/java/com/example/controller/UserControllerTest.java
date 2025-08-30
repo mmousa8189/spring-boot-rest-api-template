@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.exception.ResourceNotFoundException;
 import com.example.model.dto.UserDto;
-import com.example.service.AuditService;
 import com.example.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +37,7 @@ class UserControllerTest {
     @Mock
     private UserService userService;
     
-    @Mock
-    private AuditService auditService;
+
     
     @InjectMocks
     private UserController userController;

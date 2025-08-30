@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
-import com.example.config.EntityAuditListener;
 
 /**
  * User entity for database mapping.
@@ -21,7 +19,6 @@ import com.example.config.EntityAuditListener;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(EntityAuditListener.class)
 public class User extends AuditableEntity {
 
     @Id
