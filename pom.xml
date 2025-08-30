@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version> <!-- Latest stable Spring Boot version -->
+        <version>3.5.5</version> <!-- Latest stable Spring Boot version -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     
@@ -48,8 +48,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${org.projectlombok.version}</version>
-            <optional>true</optional>
         </dependency>
         
         <!-- MapStruct for Entity-DTO mapping -->
