@@ -11,6 +11,7 @@ This project provides a **clean, layered architecture** that follows best practi
 - Ready-to-use **DTOs, Mappers, and Exception Handling**
 - Configurable **application setup**
 - **Entity auditing** with Hibernate Envers
+- **API audit logging** with MongoDB
 - **Spring Security** integration
 - **Bean validation** for request data
 - Development and production profiles
@@ -124,11 +125,25 @@ The API will be available at:
 ---
 
 ## 📌 Example API Endpoints
+
+### API Endpoints
+
 - `GET /api/v1/users` → Get all users  
 - `POST /api/v1/users` → Create a user  
 - `GET /api/v1/users/{id}` → Get user by ID  
 - `PUT /api/v1/users/{id}` → Update user  
 - `DELETE /api/v1/users/{id}` → Delete user  
+
+### Audit Logging API Endpoints
+
+- `GET /api/v1/audit-logs` → Get all audit logs (paginated)
+- `GET /api/v1/audit-logs/{id}` → Get audit log by ID
+- `GET /api/v1/audit-logs/action/{action}` → Get audit logs by action
+- `GET /api/v1/audit-logs/endpoint/{endpoint}` → Get audit logs by endpoint
+- `GET /api/v1/audit-logs/method/{method}` → Get audit logs by HTTP method
+- `GET /api/v1/audit-logs/status/{status}` → Get audit logs by status
+- `GET /api/v1/audit-logs/date-range` → Get audit logs by date range
+- `GET /api/v1/audit-logs/stats` → Get audit statistics
 
 *(You can adjust these according to your project needs.)*
 
