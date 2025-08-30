@@ -1,5 +1,7 @@
 package com.example.model.entity;
 
+import org.hibernate.envers.Audited;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
  * User entity for database mapping.
  */
 @Entity
+@Audited
 @Table(name = "users")
 @Data
 @EqualsAndHashCode(callSuper=false)

@@ -60,6 +60,11 @@
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
+        <!-- Hibernate Envers for full change history for every entity, Spring Boot + Hibernate Envers is the cleanest solution-->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+        </dependency>
         
         <!-- Spring Boot DevTools -->
         <dependency>
