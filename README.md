@@ -168,14 +168,42 @@ This project includes a comprehensive API audit logging system using MongoDB to 
 
 ```java
 @RestController
-@RequestMapping("/api/v1/demo")
-public class YourController {
+@RequestMapping("/api/v1/users")
+public class UserController {
 
-    @GetMapping("/resource")
-    @AuditableApi(action = "GET_RESOURCE")
-    public ResponseEntity<Resource> getResource() {
+    @GetMapping
+    @AuditableApi(action = "get_all_users")  // Define a descriptive action name
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         // Your controller logic
-        return ResponseEntity.ok(resource);
+        return ResponseEntity.ok(users);
+    }
+    
+    @GetMapping("/{id}")
+    @AuditableApi(action = "get_user_by_id")  // Action for retrieving a specific user
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        // Your controller logic
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping
+    @AuditableApi(action = "create_user")  // Action for user creation
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        // Your controller logic
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+    
+    @PutMapping("/{id}")
+    @AuditableApi(action = "update_user")  // Action for user update
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        // Your controller logic
+        return ResponseEntity.ok(updatedUser);
+    }
+    
+    @DeleteMapping("/{id}")
+    @AuditableApi(action = "delete_user")  // Action for user deletion
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        // Your controller logic
+        return ResponseEntity.noContent().build();
     }
 }
 ```
@@ -190,9 +218,17 @@ GET /api/v1/audit-logs/stats      # Get usage statistics
 3. **Filter audit logs:**
 
 ```http
-GET /api/v1/audit-logs/action/CREATE_USER    # Filter by action
+GET /api/v1/audit-logs/action/create_user    # Filter by action
 GET /api/v1/audit-logs/status/FAILED         # View only failed requests
 ```
+
+4. **Best practices for `@AuditableApi` annotation:**
+
+- **Use consistent action naming conventions**: Prefer lowercase with underscores (e.g., `get_user`, `create_order`)
+- **Be descriptive but concise**: Action names should clearly indicate what operation is being performed
+- **Group related actions**: Use prefixes for related operations (e.g., `user_create`, `user_update`, `user_delete`)
+- **Apply to all sensitive operations**: Especially those involving data creation, modification, or deletion
+- **Consider security implications**: Ensure sensitive data is properly masked in request/response payloads
 
 ### Implementation Details
 
