@@ -30,7 +30,7 @@ public class DataInitializer {
     @Profile("dev")
     public CommandLineRunner initData() {
         return args -> {
-            log.info("Initializing sample data...");
+            log.info("Initializing sample data with {} arguments...", args.length);
             
             if (userRepository.count() == 0) {
                 User admin = User.builder()
