@@ -10,6 +10,10 @@ This project provides a **clean, layered architecture** that follows best practi
 - Clear **separation of concerns** using layered architecture
 - Ready-to-use **DTOs, Mappers, and Exception Handling**
 - Configurable **application setup**
+- **Entity auditing** with Hibernate Envers
+- **Spring Security** integration
+- **Bean validation** for request data
+- Development and production profiles
 - Easily extendable for any backend service
 
 ---
@@ -51,8 +55,8 @@ eg.com.company.projectname
 - Annotated with `@Repository`, typically extends `JpaRepository` or `CrudRepository`.  
 
 ### 4. **Model Layer**
-- **Entity:** Database-mapped domain objects annotated with `@Entity`.  
-- **DTO:** Data Transfer Objects to safely expose only required data.  
+- **Entity:** Database-mapped domain objects annotated with `@Entity` and `@Audited`.  
+- **DTO:** Data Transfer Objects with validation annotations to safely expose only required data.  
 
 ### 5. **Mapper Layer**
 - Converts between Entities and DTOs.  
@@ -68,16 +72,19 @@ eg.com.company.projectname
 - Centralized error handling with `@ControllerAdvice`.  
 - Custom exceptions (e.g., `UserNotFoundException`).  
 - Provides consistent error responses with proper HTTP status codes.  
+- Validation error handling for request data.  
 
 ---
 
 ## 🛠️ Tech Stack
-- **Java 24**  
-- **Spring Boot 3.2.3**  
+- **Java 23**  
+- **Spring Boot 3.5.5**  
 - **Spring Data JPA**  
+- **Spring Security**  
 - **PostgreSQL** (database)  
 - **MapStruct 1.5.5.Final** (for mapping Entities ↔ DTOs)  
 - **Lombok 1.18.30** (for boilerplate reduction)  
+- **Hibernate Envers** (for entity auditing)  
 - **Maven** (build tool)  
 
 ---
@@ -85,7 +92,7 @@ eg.com.company.projectname
 ## ⚡ Getting Started
 
 ### Prerequisites
-- Java 24  
+- Java 23  
 - Maven 3.9+  
 - PostgreSQL database  
 - GitHub Desktop or Git CLI  
