@@ -17,7 +17,7 @@
     <description>Spring Boot REST API Template with PostgreSQL</description>
     
     <properties>
-        <java.version>24</java.version> <!-- Latest Java version -->
+        <java.version>23</java.version> <!-- Latest Java version -->
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
     </properties>
