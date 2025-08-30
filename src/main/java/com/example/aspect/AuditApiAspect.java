@@ -91,7 +91,7 @@ public class AuditApiAspect {
     private String serializeRequestPayload(Object[] args) {
         try {
             return objectMapper.writeValueAsString(args);
-        } catch (Exception _) {
+        } catch (Exception e) {
             return Arrays.toString(args);
         }
     }
@@ -108,7 +108,7 @@ public class AuditApiAspect {
         }
         try {
             return objectMapper.writeValueAsString(result);
-        } catch (Exception _) {
+        } catch (Exception e) {
             return result.toString();
         }
     }
