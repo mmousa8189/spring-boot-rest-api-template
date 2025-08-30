@@ -11,7 +11,7 @@ This project provides a **clean, layered architecture** that follows best practi
 - Ready-to-use **DTOs, Mappers, and Exception Handling**
 - Configurable **application setup**
 - **Entity auditing** with Hibernate Envers
-- **API audit logging** with MongoDB
+- **API audit logging** with MongoDB (tracks all API requests and responses)
 - **Spring Security** integration
 - **Bean validation** for request data
 - Development and production profiles
@@ -146,6 +146,60 @@ The API will be available at:
 - `GET /api/v1/audit-logs/stats` → Get audit statistics
 
 *(You can adjust these according to your project needs.)*
+
+---
+
+## 📊 MongoDB API Audit Logging
+
+This project includes a comprehensive API audit logging system using MongoDB to track all API requests and responses.
+
+### Features
+
+- Automatic logging of API requests and responses
+- Captures HTTP method, endpoint, client IP, request/response payloads
+- Tracks success/failure status of each request
+- Records authenticated user who made the request
+- Timestamps for all audit events
+- Custom annotation `@AuditableApi` to mark methods for audit logging
+
+### How to Use
+
+1. **Add the annotation to your controller methods:**
+
+```java
+@RestController
+@RequestMapping("/api/v1/demo")
+public class YourController {
+
+    @GetMapping("/resource")
+    @AuditableApi(action = "GET_RESOURCE")
+    public ResponseEntity<Resource> getResource() {
+        // Your controller logic
+        return ResponseEntity.ok(resource);
+    }
+}
+```
+
+2. **Access audit logs via the API endpoints:**
+
+```http
+GET /api/v1/audit-logs            # Get all logs (paginated)
+GET /api/v1/audit-logs/stats      # Get usage statistics
+```
+
+3. **Filter audit logs:**
+
+```http
+GET /api/v1/audit-logs/action/CREATE_USER    # Filter by action
+GET /api/v1/audit-logs/status/FAILED         # View only failed requests
+```
+
+### Implementation Details
+
+- Uses Spring AOP for non-intrusive request/response interception
+- MongoDB for scalable, schema-flexible storage
+- Asynchronous logging to minimize performance impact
+- Configurable via application.properties
 
 ---
 
