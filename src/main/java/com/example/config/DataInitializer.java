@@ -38,8 +38,6 @@ public class DataInitializer {
                         .lastName("User")
                         .email("admin@example.com")
                         .password("password123")
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
                         .build();
                 
                 userRepository.save(admin);
@@ -49,8 +47,6 @@ public class DataInitializer {
                         .lastName("Doe")
                         .email("john.doe@example.com")
                         .password("password123")
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
                         .build();
                 
                 userRepository.save(john);
