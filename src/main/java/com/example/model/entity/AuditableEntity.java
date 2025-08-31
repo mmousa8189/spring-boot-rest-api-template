@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,5 +34,9 @@ public abstract class AuditableEntity {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    @Version // 🔑 Concurrency check attribute
+    @Column(name = "version", nullable = false)
+    private Long version;// Hibernate handles this automatically
 
 }
