@@ -239,6 +239,54 @@ GET /api/v1/audit-logs/status/FAILED         # View only failed requests
 
 ---
 
+## 🔒 Optimistic Concurrency Control
+
+This project implements Optimistic Concurrency Control (OCC) to handle concurrent updates to the same database record without locking it.
+
+### What is Optimistic Concurrency?
+
+Optimistic Concurrency Control (OCC) is a strategy used to handle concurrent updates to the same database record without locking it.
+- **The assumption**: conflicts are rare.
+- Each transaction works on its own copy of data, and before committing, it checks if the data has been modified by someone else.
+- If another transaction modified it → a conflict occurs → an exception (e.g., `OptimisticLockException`) is raised, and you decide how to resolve it (retry, reject, merge, etc.).
+
+### Implementation in this Template
+
+This template implements optimistic locking using Hibernate's `@Version` annotation:
+
+```java
+@MappedSuperclass
+public abstract class AuditableEntity {
+    // Other fields...
+    
+    @Version // 🔑 Concurrency check attribute
+    @Column(name = "version", nullable = false)
+    private Long version; // Hibernate handles this automatically
+}
+```
+
+### How it Works
+
+1. **Version Tracking**: Each entity has a version field that Hibernate automatically increments on each update.
+2. **Conflict Detection**: When updating an entity, Hibernate checks if the version in the database matches the version when the entity was loaded.
+3. **Exception Handling**: If versions don't match (meaning someone else updated the record), an `OptimisticLockException` is thrown.
+
+### Benefits
+
+- **No Database Locks**: Improves performance by avoiding database locks
+- **Better Scalability**: Allows more concurrent operations
+- **Conflict Resolution**: Provides clear mechanism for handling conflicts
+- **Data Integrity**: Prevents the "lost update" problem where one user's changes overwrite another's
+
+### Best Practices
+
+- Handle `OptimisticLockException` gracefully in your service layer
+- Consider implementing retry mechanisms for non-critical operations
+- Provide clear feedback to users when conflicts occur
+- Use optimistic locking for entities that are frequently read but rarely updated concurrently
+
+---
+
 ## 📜 License
 This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
 
