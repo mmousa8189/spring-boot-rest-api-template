@@ -30,7 +30,7 @@ public class DataInitializer {
     @Profile("dev")
     public CommandLineRunner initData() {
         return args -> {
-            log.info("Initializing sample data...");
+            log.info("Initializing sample data with {} arguments...", args.length);
             
             if (userRepository.count() == 0) {
                 User admin = User.builder()
@@ -38,8 +38,6 @@ public class DataInitializer {
                         .lastName("User")
                         .email("admin@example.com")
                         .password("password123")
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
                         .build();
                 
                 userRepository.save(admin);
@@ -49,8 +47,6 @@ public class DataInitializer {
                         .lastName("Doe")
                         .email("john.doe@example.com")
                         .password("password123")
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
                         .build();
                 
                 userRepository.save(john);

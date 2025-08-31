@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version> <!-- Latest stable Spring Boot version -->
+        <version>3.5.5</version> <!-- Latest stable Spring Boot version -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     
@@ -17,7 +17,7 @@
     <description>Spring Boot REST API Template with PostgreSQL</description>
     
     <properties>
-        <java.version>24</java.version> <!-- Latest Java version -->
+        <java.version>23</java.version> <!-- Latest Java version -->
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
     </properties>
@@ -36,6 +36,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
         
         <!-- PostgreSQL Driver -->
         <dependency>
@@ -48,8 +52,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${org.projectlombok.version}</version>
-            <optional>true</optional>
         </dependency>
         
         <!-- MapStruct for Entity-DTO mapping -->
@@ -58,6 +60,11 @@
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
+        <!-- Hibernate Envers for full change history for every entity, Spring Boot + Hibernate Envers is the cleanest solution-->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+        </dependency>
         
         <!-- Spring Boot DevTools -->
         <dependency>
@@ -65,6 +72,12 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        
+        <!-- MongoDB Support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         
         <!-- Test Dependencies -->

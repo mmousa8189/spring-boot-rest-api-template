@@ -10,6 +10,11 @@ This project provides a **clean, layered architecture** that follows best practi
 - Clear **separation of concerns** using layered architecture
 - Ready-to-use **DTOs, Mappers, and Exception Handling**
 - Configurable **application setup**
+- **Entity auditing** with Hibernate Envers
+- **API audit logging** with MongoDB (tracks all API requests and responses)
+- **Spring Security** integration
+- **Bean validation** for request data
+- Development and production profiles
 - Easily extendable for any backend service
 
 ---
@@ -51,8 +56,8 @@ eg.com.company.projectname
 - Annotated with `@Repository`, typically extends `JpaRepository` or `CrudRepository`.  
 
 ### 4. **Model Layer**
-- **Entity:** Database-mapped domain objects annotated with `@Entity`.  
-- **DTO:** Data Transfer Objects to safely expose only required data.  
+- **Entity:** Database-mapped domain objects annotated with `@Entity` and `@Audited`.  
+- **DTO:** Data Transfer Objects with validation annotations to safely expose only required data.  
 
 ### 5. **Mapper Layer**
 - Converts between Entities and DTOs.  
@@ -68,16 +73,19 @@ eg.com.company.projectname
 - Centralized error handling with `@ControllerAdvice`.  
 - Custom exceptions (e.g., `UserNotFoundException`).  
 - Provides consistent error responses with proper HTTP status codes.  
+- Validation error handling for request data.  
 
 ---
 
 ## 🛠️ Tech Stack
-- **Java 24**  
-- **Spring Boot 3.2.3**  
+- **Java 23**  
+- **Spring Boot 3.5.5**  
 - **Spring Data JPA**  
+- **Spring Security**  
 - **PostgreSQL** (database)  
 - **MapStruct 1.5.5.Final** (for mapping Entities ↔ DTOs)  
 - **Lombok 1.18.30** (for boilerplate reduction)  
+- **Hibernate Envers** (for entity auditing)  
 - **Maven** (build tool)  
 
 ---
@@ -85,7 +93,7 @@ eg.com.company.projectname
 ## ⚡ Getting Started
 
 ### Prerequisites
-- Java 24  
+- Java 23  
 - Maven 3.9+  
 - PostgreSQL database  
 - GitHub Desktop or Git CLI  
@@ -117,13 +125,117 @@ The API will be available at:
 ---
 
 ## 📌 Example API Endpoints
+
+### API Endpoints
+
 - `GET /api/v1/users` → Get all users  
 - `POST /api/v1/users` → Create a user  
 - `GET /api/v1/users/{id}` → Get user by ID  
 - `PUT /api/v1/users/{id}` → Update user  
 - `DELETE /api/v1/users/{id}` → Delete user  
 
+### Audit Logging API Endpoints
+
+- `GET /api/v1/audit-logs` → Get all audit logs (paginated)
+- `GET /api/v1/audit-logs/{id}` → Get audit log by ID
+- `GET /api/v1/audit-logs/action/{action}` → Get audit logs by action
+- `GET /api/v1/audit-logs/endpoint/{endpoint}` → Get audit logs by endpoint
+- `GET /api/v1/audit-logs/method/{method}` → Get audit logs by HTTP method
+- `GET /api/v1/audit-logs/status/{status}` → Get audit logs by status
+- `GET /api/v1/audit-logs/date-range` → Get audit logs by date range
+- `GET /api/v1/audit-logs/stats` → Get audit statistics
+
 *(You can adjust these according to your project needs.)*
+
+---
+
+## 📊 MongoDB API Audit Logging
+
+This project includes a comprehensive API audit logging system using MongoDB to track all API requests and responses.
+
+### Features
+
+- Automatic logging of API requests and responses
+- Captures HTTP method, endpoint, client IP, request/response payloads
+- Tracks success/failure status of each request
+- Records authenticated user who made the request
+- Timestamps for all audit events
+- Custom annotation `@AuditableApi` to mark methods for audit logging
+
+### How to Use
+
+1. **Add the annotation to your controller methods:**
+
+```java
+@RestController
+@RequestMapping("/api/v1/users")
+public class UserController {
+
+    @GetMapping
+    @AuditableApi(action = "get_all_users")  // Define a descriptive action name
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        // Your controller logic
+        return ResponseEntity.ok(users);
+    }
+    
+    @GetMapping("/{id}")
+    @AuditableApi(action = "get_user_by_id")  // Action for retrieving a specific user
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        // Your controller logic
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping
+    @AuditableApi(action = "create_user")  // Action for user creation
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        // Your controller logic
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+    
+    @PutMapping("/{id}")
+    @AuditableApi(action = "update_user")  // Action for user update
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        // Your controller logic
+        return ResponseEntity.ok(updatedUser);
+    }
+    
+    @DeleteMapping("/{id}")
+    @AuditableApi(action = "delete_user")  // Action for user deletion
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        // Your controller logic
+        return ResponseEntity.noContent().build();
+    }
+}
+```
+
+2. **Access audit logs via the API endpoints:**
+
+```http
+GET /api/v1/audit-logs            # Get all logs (paginated)
+GET /api/v1/audit-logs/stats      # Get usage statistics
+```
+
+3. **Filter audit logs:**
+
+```http
+GET /api/v1/audit-logs/action/create_user    # Filter by action
+GET /api/v1/audit-logs/status/FAILED         # View only failed requests
+```
+
+4. **Best practices for `@AuditableApi` annotation:**
+
+- **Use consistent action naming conventions**: Prefer lowercase with underscores (e.g., `get_user`, `create_order`)
+- **Be descriptive but concise**: Action names should clearly indicate what operation is being performed
+- **Group related actions**: Use prefixes for related operations (e.g., `user_create`, `user_update`, `user_delete`)
+- **Apply to all sensitive operations**: Especially those involving data creation, modification, or deletion
+- **Consider security implications**: Ensure sensitive data is properly masked in request/response payloads
+
+### Implementation Details
+
+- Uses Spring AOP for non-intrusive request/response interception
+- MongoDB for scalable, schema-flexible storage
+- Asynchronous logging to minimize performance impact
+- Configurable via application.properties
 
 ---
 
